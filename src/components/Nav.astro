@@ -15,12 +15,7 @@ const { profile } = Astro.props;
 const isHome = Astro.url.pathname === "/";
 
 const navLinks = [
-  { label: "Home", href: isHome ? "#home" : "/#home" },
   { label: "About", href: isHome ? "#about" : "/#about" },
-  { label: "Experience", href: isHome ? "#experience" : "/#experience" },
-  { label: "Work", href: isHome ? "#projects" : "/#projects" },
-  { label: "Skills", href: isHome ? "#skills" : "/#skills" },
-  { label: "Education", href: isHome ? "#education" : "/#education" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: isHome ? "#contact" : "/#contact" },
 ];

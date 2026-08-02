@@ -22,7 +22,7 @@ const { profile } = Astro.props;
         <span class="text-muted">// let's connect</span>
       </div>
       <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
-        Let's Build Something <span class="text-gradient">Great</span>
+        Let's Explore <span class="text-gradient">Opportunities</span>
       </h2>
       <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
         Have a question, an opportunity to discuss, or just want to connect? My inbox is always open.
@@ -66,6 +66,23 @@ const { profile } = Astro.props;
                 <div class="text-sm font-medium text-text">{profile.location}</div>
               </div>
             </div>
+
+            <!-- Calendly -->
+            <a
+              href="https://calendly.com/rohith-revxcapital"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center gap-3 rounded-xl border border-border bg-surface-2 p-4 transition-all hover:border-violet/50"
+            >
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet to-cyan text-white">
+                <Icon name="calendar" class="h-4 w-4" />
+              </div>
+              <div>
+                <div class="text-xs text-dim">Schedule a Call</div>
+                <div class="text-sm font-medium text-text group-hover:text-violet">calendly.com/rohith-revxcapital</div>
+              </div>
+              <Icon name="external" class="ml-auto h-4 w-4 text-dim transition-colors group-hover:text-violet" />
+            </a>
           </div>
 
           <!-- Socials -->

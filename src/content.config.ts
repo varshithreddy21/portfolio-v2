@@ -59,7 +59,7 @@ const profile = defineCollection({
           })
         ),
       })
-    ),
+    ).optional(),
     education: z.array(
       z.object({
         institution: z.string(),
