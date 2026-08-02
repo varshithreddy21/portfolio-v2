@@ -11,21 +11,11 @@ interface Props {
     avatar: string;
     resumeUrl: string;
     about: string;
-    stats: Array<{ label: string; value: string }>;
     socials: Array<{ label: string; url: string; icon: string }>;
   };
 }
 
 const { profile } = Astro.props;
-
-// Words for the typing animation
-const roles = [
-  "Finance Professional",
-  "Venture Debt Specialist",
-  "Credit & Risk Analyst",
-  "Deal Execution Expert",
-  "Private Credit Investor",
-];
 ---
 
 <section id="home" class="relative flex min-h-screen items-center overflow-hidden pt-24">
@@ -38,21 +28,15 @@ const roles = [
   <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-12 lg:px-8">
     <!-- Left: Text content -->
     <div class="lg:col-span-7">
-      <!-- Greeting -->
-      <div class="reveal reveal-left delay-1 mb-2 font-mono text-sm text-violet">
-        <span class="text-muted">$</span> whoami
-      </div>
-
       <!-- Name -->
       <h1 class="reveal reveal-left delay-2 font-display text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
         <span class="text-text">Hi, I'm </span>
         <span class="text-gradient-animated">{profile.name}</span>
       </h1>
 
-      <!-- Typing role -->
-      <div class="reveal reveal-left delay-3 mt-4 flex items-center font-display text-2xl font-medium text-muted sm:text-3xl">
-        <span class="text-text" id="typed-text"></span>
-        <span class="animate-blink ml-1 inline-block h-7 w-[3px] bg-fuchsia sm:h-8"></span>
+      <!-- Headline -->
+      <div class="reveal reveal-left delay-3 mt-4 font-display text-2xl font-medium text-muted sm:text-3xl">
+        {profile.headline}
       </div>
 
       <!-- Location -->
@@ -65,57 +49,18 @@ const roles = [
       </div>
 
       <!-- Description -->
-      <p class="reveal reveal-left delay-5 mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+      <p class="reveal reveal-left delay-5 mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg whitespace-pre-line">
         {profile.about}
       </p>
-
-      <!-- CTAs -->
-      <div class="reveal reveal-left delay-6 mt-8 flex flex-wrap items-center gap-4">
-        <a
-          href="#about"
-          class="group relative overflow-hidden rounded-xl bg-gradient-to-r from-violet to-fuchsia px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-violet/30"
-        >
-          <span class="relative z-10 flex items-center gap-2">
-            Learn More
-            <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </span>
-          <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-fuchsia to-cyan transition-transform duration-300 group-hover:translate-x-0"></div>
-        </a>
-
-        <a
-          href="#contact"
-          class="rounded-xl border border-border bg-surface/50 px-6 py-3 text-sm font-semibold text-text backdrop-blur-sm transition-all hover:border-violet/50 hover:bg-surface"
-        >
-          Get in Touch
-        </a>
-
-        {
-          profile.resumeUrl && (
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noopener"
-              class="flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-text"
-            >
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Resume
-            </a>
-          )
-        }
-      </div>
 
       <!-- Socials -->
       <div class="reveal reveal-left delay-6 mt-8 flex items-center gap-3">
         {
           profile.socials.map((social) => (
             <a
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={social.icon === "mail" ? "#contact" : social.url}
+              target={social.icon === "mail" ? undefined : "_blank"}
+              rel={social.icon === "mail" ? undefined : "noopener noreferrer"}
               class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface/50 text-muted transition-all hover:border-violet/50 hover:text-violet hover:shadow-md hover:shadow-violet/10"
               aria-label={social.label}
             >
@@ -147,76 +92,15 @@ const roles = [
           <!-- Overlay gradient -->
           <div class="absolute inset-0 bg-gradient-to-t from-base/60 via-transparent to-transparent"></div>
         </div>
-
-        <!-- Floating badges -->
-        <div class="animate-float-slow absolute -left-6 bottom-1/4 rounded-xl border border-border glass-strong px-3 py-2 text-xs font-medium text-text">
-          <span class="text-gradient font-bold">100 Cr+</span> Deals
-        </div>
-
-        <div class="animate-float absolute -bottom-2 right-1/4 rounded-xl border border-border glass-strong px-3 py-2 text-xs font-medium text-text" style="animation-delay: -2s;">
-          <span class="text-gradient font-bold">3+</span> Years Exp
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- Stats bar -->
-  <div class="absolute bottom-0 left-0 right-0 border-t border-white/5 bg-surface/30 backdrop-blur-sm">
-    <div class="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-6 py-6 sm:grid-cols-4 lg:px-8">
-      {
-        profile.stats?.map((stat, i) => (
-          <div class={`reveal reveal-scale delay-${i + 1} text-center`}>
-            <div class="font-display text-3xl font-bold text-gradient sm:text-4xl">
-              {stat.value}
-            </div>
-            <div class="mt-1 text-xs text-dim sm:text-sm">{stat.label}</div>
-          </div>
-        ))
-      }
-    </div>
-  </div>
-
   <!-- Scroll indicator -->
-  <div class="absolute bottom-28 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
+  <div class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex">
     <span class="text-xs text-dim">Scroll</span>
     <div class="flex h-8 w-5 justify-center rounded-full border border-border pt-2">
       <div class="animate-float h-1.5 w-1 rounded-full bg-violet"></div>
     </div>
   </div>
 </section>
-
-<!-- Inline SVG icons data -->
-<script define:vars={{ roles }}>
-  // Typing animation
-  const typedEl = document.getElementById("typed-text");
-  let roleIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-
-  function typeRole() {
-    const current = roles[roleIndex];
-    if (isDeleting) {
-      charIndex--;
-    } else {
-      charIndex++;
-    }
-    if (typedEl) {
-      typedEl.textContent = current.substring(0, charIndex);
-    }
-
-    let delay = isDeleting ? 40 : 80;
-
-    if (!isDeleting && charIndex === current.length) {
-      delay = 2000;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      roleIndex = (roleIndex + 1) % roles.length;
-      delay = 300;
-    }
-
-    setTimeout(typeRole, delay);
-  }
-
-  if (typedEl) typeRole();
-</script>

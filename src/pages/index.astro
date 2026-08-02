@@ -1,10 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import About from "../components/About.astro";
-import Experience from "../components/Experience.astro";
 import Projects from "../components/Projects.astro";
-import Education from "../components/Education.astro";
 import BlogList from "../components/BlogList.astro";
 import Contact from "../components/Contact.astro";
 import { getEntry, getCollection } from "astro:content";
@@ -17,10 +14,7 @@ const posts = (await getCollection("blog"))
 
 <BaseLayout>
   <Hero profile={profile} />
-  <About profile={profile} />
-  <Experience experience={profile.experience} />
   <Projects projects={profile.projects} />
-  <Education education={profile.education} certifications={profile.certifications} />
   <BlogList posts={posts} />
   <Contact profile={profile} />
 </BaseLayout>

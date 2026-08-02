@@ -3,6 +3,7 @@ title: "What I Look For When Evaluating a Deal"
 description: "An inside look at the evaluation process — the frameworks, red flags, and key factors that determine whether a deal gets done."
 publishDate: 2026-06-20
 tags: ["evaluation", "risk assessment", "deals", "frameworks"]
+category: "Risk & Evaluation"
 readingTime: "6 min read"
 ---
 

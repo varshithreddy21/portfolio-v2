@@ -9,6 +9,7 @@ interface BlogPost {
     publishDate: Date;
     tags: string[];
     readingTime?: string;
+    category?: string;
   };
 }
 
@@ -30,14 +31,11 @@ function formatDate(date: Date): string {
 }
 ---
 
-<section id="blog" class="relative py-24 lg:py-32">
+<section id="blog" class="relative py-16 lg:py-24">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <!-- Header -->
     <div class="reveal mb-16 flex items-end justify-between">
       <div>
-        <div class="mb-3 font-mono text-sm text-violet">
-          <span class="text-muted">// writing</span>
-        </div>
         <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
           Latest <span class="text-gradient">Articles</span>
         </h2>
@@ -63,6 +61,7 @@ function formatDate(date: Date): string {
           {displayPosts.map((post, i) => (
             <a
               href={`/blog/${post.id}`}
+              data-category={post.data.category}
               class={`reveal reveal-scale delay-${(i % 3) + 1} group gradient-border flex flex-col p-6 transition-transform hover:-translate-y-1`}
             >
               {/* Date + reading time */}
@@ -88,16 +87,6 @@ function formatDate(date: Date): string {
               <p class="mt-2 flex-1 text-sm leading-relaxed text-muted line-clamp-3">
                 {post.data.description}
               </p>
-
-              {/* Tags */}
-              <div class="mt-4 flex flex-wrap gap-2">
-                {post.data.tags.slice(0, 3).map((tag) => (
-                  <span class="flex items-center gap-1 rounded-md border border-border bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-dim">
-                    <Icon name="tag" class="h-2.5 w-2.5" />
-                    {tag}
-                  </span>
-                ))}
-              </div>
 
               {/* Read more */}
               <div class="mt-4 flex items-center gap-1.5 text-sm font-medium text-violet opacity-0 transition-opacity group-hover:opacity-100">

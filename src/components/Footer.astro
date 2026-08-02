@@ -25,15 +25,13 @@ const year = new Date().getFullYear();
         </div>
         <div>
           <div class="font-display text-sm font-semibold text-text">{profile.name}</div>
-          <div class="text-xs text-dim">Built with Astro & Tailwind CSS</div>
         </div>
       </div>
 
       <!-- Quick links -->
       <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-        <a href={isHome ? "#about" : "/#about"} class="text-muted transition-colors hover:text-text">About</a>
+        <a href={isHome ? "#home" : "/#home"} class="text-muted transition-colors hover:text-text">About</a>
         <a href="/blog" class="text-muted transition-colors hover:text-text">Blog</a>
-        <a href={isHome ? "#contact" : "/#contact"} class="text-muted transition-colors hover:text-text">Contact</a>
         <a href="/rss.xml" class="flex items-center gap-1 text-muted transition-colors hover:text-violet">
           <Icon name="rss" class="h-3.5 w-3.5" />
           RSS
@@ -61,12 +59,7 @@ const year = new Date().getFullYear();
     <!-- Bottom bar -->
     <div class="mt-8 flex flex-col items-center justify-between gap-2 border-t border-white/5 pt-6 text-xs text-dim sm:flex-row">
       <p>&copy; {year} {profile.name}. All rights reserved.</p>
-      <p class="flex items-center gap-1">
-        Made with
-        <span class="text-rose">♥</span>
-        and lots of
-        <span class="text-amber">☕</span>
-      </p>
+      <p>Built with Astro & Tailwind CSS</p>
     </div>
   </div>
 </footer>

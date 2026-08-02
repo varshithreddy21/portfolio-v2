@@ -15,7 +15,7 @@ const { profile } = Astro.props;
 const isHome = Astro.url.pathname === "/";
 
 const navLinks = [
-  { label: "About", href: isHome ? "#about" : "/#about" },
+  { label: "About", href: isHome ? "#home" : "/#home" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: isHome ? "#contact" : "/#contact" },
 ];
@@ -40,7 +40,7 @@ const navLinks = [
           >
           </div>
         </div>
-        <span class="hidden font-display text-sm font-semibold tracking-wide text-text sm:block">
+        <span class="hidden font-display text-lg font-semibold tracking-tight text-text sm:block">
           {profile.name}
         </span>
       </a>

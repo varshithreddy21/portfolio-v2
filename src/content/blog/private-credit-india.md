@@ -3,6 +3,7 @@ title: "Private Credit: The Rise of Non-Bank Lending in India"
 description: "How India's private credit market is evolving, why it matters for high-growth companies, and what the future holds for alternative debt financing."
 publishDate: 2026-05-10
 tags: ["private credit", "india", "alternative finance", "AIF"]
+category: "Industry Insights"
 readingTime: "8 min read"
 ---
 

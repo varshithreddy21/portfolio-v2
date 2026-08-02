@@ -8,40 +8,60 @@ const profile = (await getEntry("profile", "profile")).data;
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const categories = ["All", ...new Set(posts.map((p) => p.data.category))];
 ---
 
-<BaseLayout title={`Blog — ${profile.name}`} description="Thoughts on engineering, cloud architecture, and building at scale.">
-  <section class="relative pt-32 pb-12">
+<BaseLayout title={`Blog — ${profile.name}`} description="Thoughts on my professional journey, industry insights, and lessons learned along the way.">
+  <section class="relative pt-32 pb-8">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <!-- Header -->
       <div class="reveal text-center">
-        <div class="mb-3 font-mono text-sm text-violet">
-          <span class="text-muted">// blog</span>
-        </div>
         <h1 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl lg:text-6xl">
-          The <span class="text-gradient">Blog</span>
+          My <span class="text-gradient">blogs</span>
         </h1>
         <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
           Thoughts on my professional journey, industry insights, and lessons learned along the way.
         </p>
       </div>
 
-      <!-- Tags filter -->
-      <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-2">
-        <span class="flex items-center gap-1 text-xs text-dim">
-          <Icon name="tag" class="h-3 w-3" />
-          Tags:
-        </span>
-        {
-          [...new Set(posts.flatMap((p) => p.data.tags))].map((tag) => (
-            <span class="rounded-full border border-border bg-surface-2 px-3 py-1 text-xs text-muted">
-              {tag}
-            </span>
-          ))
-        }
+      <!-- Category filter -->
+      <div class="reveal mt-10 flex justify-center">
+        <div class="relative">
+          <select
+            id="category-filter"
+            class="appearance-none rounded-xl border border-border bg-surface px-4 py-2.5 pr-10 text-sm font-medium text-text transition-colors hover:border-violet/50 focus:border-violet focus:outline-none focus:ring-1 focus:ring-violet"
+          >
+            {categories.map((cat) => (
+              <option value={cat}>{cat}</option>
+            ))}
+          </select>
+          <Icon name="arrow" class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-dim" />
+        </div>
       </div>
     </div>
   </section>
 
-  <BlogList posts={posts} showAll={true} />
+  <!-- Posts -->
+  <div id="posts-container">
+    <BlogList posts={posts} showAll={true} />
+  </div>
 </BaseLayout>
+
+<script>
+  // Category filter
+  const filter = document.getElementById("category-filter");
+  const cards = document.querySelectorAll("#posts-container a[href^='/blog/']");
+
+  filter?.addEventListener("change", (e) => {
+    const selected = (e.target as HTMLSelectElement).value;
+    cards.forEach((card) => {
+      const cat = card.getAttribute("data-category") || "";
+      if (selected === "All" || cat === selected) {
+        (card as HTMLElement).style.display = "";
+      } else {
+        (card as HTMLElement).style.display = "none";
+      }
+    });
+  });
+</script>
