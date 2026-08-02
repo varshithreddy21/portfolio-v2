@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import { getEntry } from "astro:content";
+
+const profile = (await getEntry("profile", "profile")).data;
+---
+
+<BaseLayout title={`404 — ${profile.name}`}>
+  <section class="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
+    <!-- Animated background -->
+    <div class="absolute inset-0 -z-10 grid-bg opacity-20"></div>
+    <div class="animate-aurora absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-violet/10 blur-[100px]"></div>
+    <div class="animate-aurora absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-fuchsia/10 blur-[100px]" style="animation-delay: -8s;"></div>
+
+    <div class="text-center">
+      <!-- 404 big text -->
+      <div class="reveal reveal-scale relative inline-block">
+        <h1 class="font-display text-[8rem] font-bold leading-none text-gradient-animated sm:text-[12rem]">
+          404
+        </h1>
+        <div class="animate-float absolute -top-6 -right-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-border glass-strong">
+          <Icon name="sparkles" class="h-6 w-6 text-violet" />
+        </div>
+        <div class="animate-float-slow absolute -bottom-4 -left-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-border glass-strong" style="animation-delay: -3s;">
+          <Icon name="sparkles" class="h-5 w-5 text-fuchsia" />
+        </div>
+      </div>
+
+      <div class="reveal reveal-left delay-2 mt-4">
+        <h2 class="font-display text-2xl font-semibold text-text sm:text-3xl">
+          Page Not Found
+        </h2>
+        <p class="mx-auto mt-3 max-w-md text-muted">
+          Looks like this page wandered off into the void. Let's get you back home.
+        </p>
+      </div>
+
+      <div class="reveal reveal-left delay-3 mt-8 flex items-center justify-center gap-4">
+        <a href="/" class="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet to-fuchsia px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-violet/30">
+          <Icon name="arrow" class="h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" />
+          Back Home
+        </a>
+        <a href="/blog" class="rounded-xl border border-border bg-surface/50 px-6 py-3 text-sm font-semibold text-text backdrop-blur-sm transition-all hover:border-violet/50">
+          Read the Blog
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

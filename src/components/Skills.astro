@@ -1,0 +1,114 @@
+---
+import Icon from "./Icon.astro";
+
+interface SkillCategory {
+  category: string;
+  icon?: string;
+  items: Array<{ name: string; level?: number }>;
+}
+
+interface Props {
+  skills: SkillCategory[];
+}
+
+const { skills } = Astro.props;
+
+// Determine color based on level
+function levelColor(level: number): string {
+  if (level >= 90) return "from-emerald to-teal-500";
+  if (level >= 75) return "from-violet to-fuchsia";
+  if (level >= 60) return "from-cyan to-blue-500";
+  return "from-amber to-rose-500";
+}
+---
+
+<section id="skills" class="relative py-24 lg:py-32">
+  <!-- Background accent -->
+  <div class="absolute inset-0 -z-10 dot-bg opacity-30"></div>
+
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="reveal mb-16 text-center">
+      <div class="mb-3 font-mono text-sm text-violet">
+        <span class="text-muted">// expertise</span>
+      </div>
+      <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+        Skills & <span class="text-gradient">Expertise</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        The capabilities and competencies I bring to the table.
+      </p>
+    </div>
+
+    <!-- Skills grid -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {
+        skills.map((cat, i) => (
+          <div class={`reveal ${i % 2 === 0 ? "reveal-right" : "reveal-left"} delay-${(i % 3) + 1} gradient-border p-6`}>
+            {/* Category header */}
+            <div class="mb-6 flex items-center gap-3">
+              {cat.icon && (
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet to-fuchsia text-white">
+                  <Icon name={cat.icon} class="h-5 w-5" />
+                </div>
+              )}
+              <h3 class="font-display text-lg font-semibold text-text">{cat.category}</h3>
+            </div>
+
+            {/* Skill bars */}
+            <div class="space-y-4">
+              {cat.items.map((skill) => (
+                <div>
+                  <div class="mb-1.5 flex items-center justify-between">
+                    <span class="text-sm font-medium text-text">{skill.name}</span>
+                    {skill.level && (
+                      <span class="font-mono text-xs text-dim">{skill.level}%</span>
+                    )}
+                  </div>
+                  {skill.level && (
+                    <div class="h-2 overflow-hidden rounded-full bg-surface-2">
+                      <div
+                        class={`skill-bar-fill h-full bg-gradient-to-r ${levelColor(skill.level)}`}
+                        style={`width: 0%; --target-width: ${skill.level}%;`}
+                        data-target={skill.level}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Animate skill bars on scroll into view
+  const skillBars = document.querySelectorAll(".skill-bar-fill");
+  const skillObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const target = entry.target.getAttribute("data-target");
+          if (target) {
+            requestAnimationFrame(() => {
+              entry.target.style.width = target + "%";
+            });
+          }
+          skillObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  skillBars.forEach((bar) => skillObserver.observe(bar));
+
+  document.addEventListener("astro:after-swap", () => {
+    document.querySelectorAll(".skill-bar-fill").forEach((bar) => {
+      bar.style.width = "0%";
+      skillObserver.observe(bar);
+    });
+  });
+</script>

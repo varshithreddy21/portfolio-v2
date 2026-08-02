@@ -1,0 +1,108 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  profile: {
+    about: string;
+    name: string;
+    skills?: Array<{
+      category: string;
+      items: Array<{ name: string; level?: number }>;
+    }>;
+  };
+}
+
+const { profile } = Astro.props;
+
+// Pull skill names from profile data for the marquee
+const marqueeTags = profile.skills?.flatMap((cat) => cat.items.map((item) => item.name)) ?? [];
+
+// "What I do" cards — these describe capabilities rather than just bio
+const cards = [
+  {
+    icon: "shield",
+    title: "Credit & Risk",
+    description: "Comprehensive credit underwriting, risk monitoring, and due diligence. Evaluating borrower creditworthiness through deep financial statement analysis.",
+    gradient: "from-violet to-indigo-500",
+  },
+  {
+    icon: "handshake",
+    title: "Deal Execution",
+    description: "End-to-end deal lifecycle — sourcing through network, negotiations, structuring, due diligence, closure, and post-investment portfolio monitoring.",
+    gradient: "from-fuchsia to-rose-500",
+  },
+  {
+    icon: "chart",
+    title: "Financial Analysis",
+    description: "Advanced financial modeling, scenario planning, and investment analysis. Translating complex financial data into actionable insights for decision-makers.",
+    gradient: "from-cyan to-blue-500",
+  },
+  {
+    icon: "trending",
+    title: "Venture Debt",
+    description: "Structuring tailored debt solutions for high-growth companies. Helping founders and CFOs scale without equity dilution through private credit.",
+    gradient: "from-emerald to-teal-500",
+  },
+];
+---
+
+<section id="about" class="relative py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="reveal mb-16 text-center">
+      <div class="mb-3 font-mono text-sm text-violet">
+        <span class="text-muted">// about me</span>
+      </div>
+      <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+        About <span class="text-gradient">Me</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        {profile.about}
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        cards.map((card, i) => (
+          <div
+            class={`reveal reveal-scale delay-${i + 1} group gradient-border relative overflow-hidden p-6 transition-transform hover:-translate-y-1`}
+          >
+            {/* Glow on hover */}
+            <div class={`absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${card.gradient} opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20`} />
+
+            {/* Icon */}
+            <div class={`mb-4 inline-flex rounded-xl bg-gradient-to-br ${card.gradient} p-3 text-white`}>
+              <Icon name={card.icon} class="h-5 w-5" />
+            </div>
+
+            <h3 class="mb-2 font-display text-lg font-semibold text-text">{card.title}</h3>
+            <p class="text-sm leading-relaxed text-muted">{card.description}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Marquee tags from skills -->
+    {
+      marqueeTags.length > 0 && (
+        <div class="reveal mt-16 overflow-hidden border-y border-white/5 py-6">
+          <div class="marquee-track gap-8">
+            {
+              [...Array(2)].map(() => (
+                <div class="flex shrink-0 gap-8">
+                  {marqueeTags.map((tag) => (
+                    <span class="flex items-center gap-2 font-mono text-sm text-dim">
+                      <span class="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-violet to-fuchsia" />
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>

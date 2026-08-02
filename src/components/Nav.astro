@@ -1,0 +1,172 @@
+---
+interface Props {
+  profile: {
+    name: string;
+    firstName: string;
+    headline: string;
+    email: string;
+    socials: Array<{ label: string; url: string; icon: string }>;
+  };
+}
+
+const { profile } = Astro.props;
+
+// On the homepage, anchor links work. On other pages (e.g. /blog), they need the full path.
+const isHome = Astro.url.pathname === "/";
+
+const navLinks = [
+  { label: "Home", href: isHome ? "#home" : "/#home" },
+  { label: "About", href: isHome ? "#about" : "/#about" },
+  { label: "Experience", href: isHome ? "#experience" : "/#experience" },
+  { label: "Work", href: isHome ? "#projects" : "/#projects" },
+  { label: "Skills", href: isHome ? "#skills" : "/#skills" },
+  { label: "Education", href: isHome ? "#education" : "/#education" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: isHome ? "#contact" : "/#contact" },
+];
+---
+
+<header
+  class="fixed top-0 left-0 z-50 w-full transition-all duration-300"
+  id="navbar"
+>
+  <div class="glass-strong border-b border-white/5">
+    <nav
+      class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+    >
+      <!-- Logo -->
+      <a href="/" class="group flex items-center gap-3">
+        <div
+          class="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet to-fuchsia text-sm font-bold text-white transition-transform group-hover:scale-110"
+        >
+          {profile.firstName.slice(0, 2).toUpperCase()}
+          <div
+            class="animate-glow-pulse absolute inset-0 rounded-xl bg-gradient-to-br from-violet to-fuchsia opacity-50 blur-md"
+          >
+          </div>
+        </div>
+        <span class="hidden font-display text-sm font-semibold tracking-wide text-text sm:block">
+          {profile.name}
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <ul class="hidden items-center gap-1 lg:flex">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="nav-link relative rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:text-text"
+                data-section={link.href.replace("#", "")}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- CTA -->
+      <div class="flex items-center gap-3">
+        <a
+          href={isHome ? "#contact" : "/#contact"}
+          class="hidden rounded-lg bg-gradient-to-r from-violet to-fuchsia px-4 py-2 text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-violet/30 sm:block"
+        >
+          Get in Touch
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          class="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-text lg:hidden"
+          id="menu-toggle"
+          aria-label="Toggle menu"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    class="glass-strong max-h-0 overflow-hidden border-b border-white/5 transition-all duration-300 lg:hidden"
+    id="mobile-menu"
+  >
+    <ul class="flex flex-col gap-1 px-6 py-4">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="mobile-nav-link block rounded-lg px-3 py-2.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-text"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById("navbar");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 20) {
+      navbar?.classList.add("scrolled");
+    } else {
+      navbar?.classList.remove("scrolled");
+    }
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  let menuOpen = false;
+
+  menuToggle?.addEventListener("click", () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu!.style.maxHeight = mobileMenu!.scrollHeight + "px";
+    } else {
+      mobileMenu!.style.maxHeight = "0px";
+    }
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuOpen = false;
+      mobileMenu!.style.maxHeight = "0px";
+    });
+  });
+
+  // Scroll spy for active nav link
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  const spyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute("id");
+          navLinks.forEach((link) => {
+            link.classList.remove("text-text", "bg-surface-2");
+            link.classList.add("text-muted");
+            if (link.getAttribute("data-section") === id) {
+              link.classList.add("text-text", "bg-surface-2");
+              link.classList.remove("text-muted");
+            }
+          });
+        }
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px" }
+  );
+
+  sections.forEach((section) => spyObserver.observe(section));
+</script>

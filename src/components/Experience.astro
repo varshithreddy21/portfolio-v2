@@ -1,0 +1,154 @@
+---
+import Icon from "./Icon.astro";
+
+interface ExperienceItem {
+  title: string;
+  company: string;
+  companyUrl?: string;
+  location?: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
+  description: string;
+  highlights: string[];
+  tech?: string[];
+}
+
+interface Props {
+  experience: ExperienceItem[];
+}
+
+const { experience } = Astro.props;
+
+function formatDate(dateStr: string): string {
+  if (!dateStr) return "Present";
+  const [year, month] = dateStr.split("-");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[parseInt(month) - 1]} ${year}`;
+}
+
+function duration(start: string, end: string): string {
+  if (!start) return "";
+  const [sy, sm] = start.split("-").map(Number);
+  let ey: number, em: number;
+  if (!end) {
+    const now = new Date();
+    ey = now.getFullYear();
+    em = now.getMonth() + 1;
+  } else {
+    [ey, em] = end.split("-").map(Number);
+  }
+  const years = ey - sy;
+  const months = em - sm;
+  let totalMonths = years * 12 + months;
+  if (totalMonths < 0) totalMonths = 0;
+  const y = Math.floor(totalMonths / 12);
+  const m = totalMonths % 12;
+  if (y === 0) return `${m}mo`;
+  if (m === 0) return `${y}yr`;
+  return `${y}yr ${m}mo`;
+}
+---
+
+<section id="experience" class="relative py-24 lg:py-32">
+  <!-- Background accent -->
+  <div class="absolute left-1/2 top-0 -z-10 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-violet/30 to-transparent"></div>
+
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="reveal mb-16 text-center">
+      <div class="mb-3 font-mono text-sm text-violet">
+        <span class="text-muted">// career timeline</span>
+      </div>
+      <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+        Professional <span class="text-gradient">Journey</span>
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative mx-auto max-w-4xl">
+      <!-- Vertical line -->
+      <div class="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-violet via-fuchsia to-transparent sm:left-1/2 sm:-translate-x-1/2"></div>
+
+      <div class="space-y-12">
+        {
+          experience.map((job, i) => (
+            <div class={`reveal ${i % 2 === 0 ? "reveal-right" : "reveal-left"} relative`}>
+              {/* Timeline dot */}
+              <div class="absolute left-4 top-2 -translate-x-1/2 sm:left-1/2">
+                <div class={`relative flex h-4 w-4 items-center justify-center rounded-full ${job.current ? "bg-emerald" : "bg-violet"}`}>
+                  <div class={`absolute inset-0 rounded-full ${job.current ? "bg-emerald" : "bg-violet"} animate-ping opacity-40`} />
+                </div>
+              </div>
+
+              {/* Content card */}
+              <div class={`ml-12 sm:ml-0 ${i % 2 === 0 ? "sm:mr-[calc(50%+2rem)]" : "sm:ml-[calc(50%+2rem)]"}`}>
+                <div class="gradient-border group p-6 transition-transform hover:-translate-y-1">
+                  {/* Date + duration */}
+                  <div class="mb-3 flex flex-wrap items-center gap-2 text-xs text-dim">
+                    <Icon name="calendar" class="h-3.5 w-3.5" />
+                    <span>{formatDate(job.startDate)} — {formatDate(job.endDate)}</span>
+                    <span class="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] text-muted">
+                      {duration(job.startDate, job.endDate)}
+                    </span>
+                    {job.current && (
+                      <span class="flex items-center gap-1 rounded-full border border-emerald/30 bg-emerald/10 px-2 py-0.5 text-[10px] font-medium text-emerald">
+                        <span class="h-1.5 w-1.5 rounded-full bg-emerald" />
+                        Current
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title + company */}
+                  <h3 class="font-display text-xl font-semibold text-text">
+                    {job.title}
+                  </h3>
+                  <div class="mt-1 flex items-center gap-2 text-sm">
+                    {job.companyUrl ? (
+                      <a href={job.companyUrl} target="_blank" rel="noopener" class="link-underline font-medium text-violet hover:text-fuchsia">
+                        {job.company}
+                      </a>
+                    ) : (
+                      <span class="font-medium text-violet">{job.company}</span>
+                    )}
+                    {job.location && (
+                      <span class="flex items-center gap-1 text-dim">
+                        <span>·</span>
+                        <Icon name="location" class="h-3 w-3" />
+                        {job.location}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Description */}
+                  <p class="mt-3 text-sm leading-relaxed text-muted">{job.description}</p>
+
+                  {/* Highlights */}
+                  <ul class="mt-4 space-y-2">
+                    {job.highlights.map((highlight) => (
+                      <li class="flex gap-2 text-sm text-muted">
+                        <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gradient-to-r from-violet to-fuchsia" />
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Tech tags */}
+                  {job.tech && (
+                    <div class="mt-4 flex flex-wrap gap-2">
+                      {job.tech.map((t) => (
+                        <span class="rounded-md border border-border bg-surface-2 px-2 py-0.5 font-mono text-[11px] text-dim">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

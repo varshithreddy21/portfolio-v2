@@ -1,0 +1,129 @@
+---
+import Icon from "./Icon.astro";
+
+interface BlogPost {
+  id: string;
+  data: {
+    title: string;
+    description: string;
+    publishDate: Date;
+    tags: string[];
+    readingTime?: string;
+  };
+}
+
+interface Props {
+  posts: BlogPost[];
+  showAll?: boolean;
+}
+
+const { posts, showAll = false } = Astro.props;
+
+const displayPosts = showAll ? posts : posts.slice(0, 3);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+---
+
+<section id="blog" class="relative py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="reveal mb-16 flex items-end justify-between">
+      <div>
+        <div class="mb-3 font-mono text-sm text-violet">
+          <span class="text-muted">// writing</span>
+        </div>
+        <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+          Latest <span class="text-gradient">Articles</span>
+        </h2>
+        <p class="mt-4 text-lg text-muted">
+          Thoughts on my professional journey, industry insights, and lessons learned along the way.
+        </p>
+      </div>
+
+      {
+        !showAll && posts.length > 3 && (
+          <a href="/blog" class="hidden shrink-0 items-center gap-2 text-sm font-medium text-violet hover:text-fuchsia sm:flex">
+            View All
+            <Icon name="arrow" class="h-4 w-4" />
+          </a>
+        )
+      }
+    </div>
+
+    <!-- Posts grid -->
+    {
+      displayPosts.length > 0 ? (
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {displayPosts.map((post, i) => (
+            <a
+              href={`/blog/${post.id}`}
+              class={`reveal reveal-scale delay-${(i % 3) + 1} group gradient-border flex flex-col p-6 transition-transform hover:-translate-y-1`}
+            >
+              {/* Date + reading time */}
+              <div class="mb-4 flex items-center gap-3 text-xs text-dim">
+                <span class="flex items-center gap-1">
+                  <Icon name="calendar" class="h-3 w-3" />
+                  {formatDate(post.data.publishDate)}
+                </span>
+                {post.data.readingTime && (
+                  <span class="flex items-center gap-1">
+                    <Icon name="clock" class="h-3 w-3" />
+                    {post.data.readingTime}
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h3 class="font-display text-lg font-semibold leading-snug text-text transition-colors group-hover:text-violet">
+                {post.data.title}
+              </h3>
+
+              {/* Description */}
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-muted line-clamp-3">
+                {post.data.description}
+              </p>
+
+              {/* Tags */}
+              <div class="mt-4 flex flex-wrap gap-2">
+                {post.data.tags.slice(0, 3).map((tag) => (
+                  <span class="flex items-center gap-1 rounded-md border border-border bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-dim">
+                    <Icon name="tag" class="h-2.5 w-2.5" />
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Read more */}
+              <div class="mt-4 flex items-center gap-1.5 text-sm font-medium text-violet opacity-0 transition-opacity group-hover:opacity-100">
+                Read More
+                <Icon name="arrow" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="reveal text-center py-16">
+          <p class="text-muted">No blog posts yet. Check back soon!</p>
+        </div>
+      )
+    }
+
+    {/* Mobile view all link */}
+    {
+      !showAll && posts.length > 3 && (
+        <div class="mt-8 text-center sm:hidden">
+          <a href="/blog" class="inline-flex items-center gap-2 text-sm font-medium text-violet">
+            View All Posts
+            <Icon name="arrow" class="h-4 w-4" />
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

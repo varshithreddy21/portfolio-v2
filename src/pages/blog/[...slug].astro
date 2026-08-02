@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import { getEntry, getCollection, render } from "astro:content";
+
+const profile = (await getEntry("profile", "profile")).data;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts
+    .filter((post) => !post.data.draft)
+    .map((post) => ({
+      params: { slug: post.id },
+      props: post,
+    }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+// Get related posts (same tags)
+const allPosts = (await getCollection("blog"))
+  .filter((p) => !p.data.draft && p.id !== post.id)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const relatedPosts = allPosts
+  .filter((p) => p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .slice(0, 2);
+---
+
+<BaseLayout title={`${post.data.title} — ${profile.name}`} description={post.data.description}>
+  <article class="relative pt-32 pb-24">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <!-- Back link -->
+      <a href="/blog" class="reveal group mb-8 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text">
+        <Icon name="arrow" class="h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" />
+        Back to Blog
+      </a>
+
+      <!-- Header -->
+      <header class="reveal reveal-left mb-10">
+        <!-- Meta -->
+        <div class="mb-4 flex flex-wrap items-center gap-3 text-xs text-dim">
+          <span class="flex items-center gap-1">
+            <Icon name="calendar" class="h-3.5 w-3.5" />
+            {formatDate(post.data.publishDate)}
+          </span>
+          {post.data.readingTime && (
+            <span class="flex items-center gap-1">
+              <Icon name="clock" class="h-3.5 w-3.5" />
+              {post.data.readingTime}
+            </span>
+          )}
+          {post.data.updatedDate && (
+            <span class="flex items-center gap-1">
+              <Icon name="check" class="h-3.5 w-3.5" />
+              Updated {formatDate(post.data.updatedDate)}
+            </span>
+          )}
+        </div>
+
+        <!-- Title -->
+        <h1 class="font-display text-3xl font-bold leading-tight tracking-tight text-text sm:text-4xl lg:text-5xl">
+          {post.data.title}
+        </h1>
+
+        <!-- Description -->
+        <p class="mt-4 text-lg leading-relaxed text-muted">
+          {post.data.description}
+        </p>
+
+        <!-- Tags -->
+        <div class="mt-6 flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="flex items-center gap-1 rounded-full border border-border bg-surface-2 px-3 py-1 text-xs text-muted">
+              <Icon name="tag" class="h-3 w-3" />
+              {tag}
+            </span>
+          ))}
+        </div>
+      </header>
+
+      <!-- Article content -->
+      <div class="prose reveal">
+        <Content />
+      </div>
+
+      <!-- Share / Author section -->
+      <div class="reveal mt-16 border-t border-border pt-8">
+        <div class="flex items-center gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet to-fuchsia text-sm font-bold text-white">
+            {profile.firstName.slice(0, 2).toUpperCase()}
+          </div>
+          <div>
+            <div class="text-sm font-medium text-text">{profile.name}</div>
+            <div class="text-xs text-dim">{profile.headline}</div>
+          </div>
+          <div class="ml-auto flex gap-2">
+            <a href={`/blog/${post.id}`} class="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted hover:text-violet" aria-label="Share">
+              <Icon name="external" class="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related posts -->
+      {relatedPosts.length > 0 && (
+        <div class="reveal mt-12">
+          <h2 class="mb-6 font-display text-xl font-semibold text-text">Related Posts</h2>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {relatedPosts.map((rp) => (
+              <a href={`/blog/${rp.id}`} class="group gradient-border p-5 transition-transform hover:-translate-y-1">
+                <div class="text-xs text-dim">{formatDate(rp.data.publishDate)}</div>
+                <h3 class="mt-1 font-display text-base font-semibold text-text group-hover:text-violet">{rp.data.title}</h3>
+                <p class="mt-1 text-sm text-muted line-clamp-2">{rp.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </article>
+</BaseLayout>

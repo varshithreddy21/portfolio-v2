@@ -1,0 +1,180 @@
+{
+  "profile": {
+    "name": "Rohith Reddy",
+    "firstName": "Rohith",
+    "headline": "Investments at RevX | Private Credit | Venture Debt",
+    "location": "Hyderabad, Telangana, India",
+    "email": "rohithreddy939@gmail.com",
+    "phone": "",
+    "avatar": "/images/rohith.jpeg",
+    "resumeUrl": "",
+    "about": "Helping high-growth companies with the right debt solutions.\n\nI am a finance professional, responsible for end-to-end deal execution — sourcing (via network), credit evaluation, negotiations, due diligence, deal closure & portfolio monitoring.\n\nAt RevX Capital (CAT-2 AIF), we provide tailored debt solutions to help businesses scale without equity dilution. If you are a founder or CFO exploring debt to fuel your growth, please schedule an introductory call using the link in bio.",
+    "stats": [
+      { "label": "Years Experience", "value": "3+" },
+      { "label": "Companies Worked", "value": "3" },
+      { "label": "Certifications", "value": "9" },
+      { "label": "Top 100 Analysts", "value": "2026" }
+    ],
+    "experience": [
+      {
+        "title": "Analyst - Investments",
+        "company": "RevX Capital",
+        "companyUrl": "",
+        "location": "Hyderabad, Telangana, India",
+        "startDate": "2025-09",
+        "endDate": "",
+        "current": true,
+        "description": "Managing end-to-end deal execution for venture debt and private credit transactions at a CAT-2 AIF. Sourcing deals through network, conducting credit evaluations, leading negotiations, overseeing due diligence, and monitoring portfolio performance.",
+        "highlights": [
+          "Structuring tailored debt solutions for high-growth companies to scale without equity dilution",
+          "Executing the full deal lifecycle: sourcing, credit evaluation, negotiations, due diligence, and closure",
+          "Monitoring portfolio companies and managing post-investment relationships"
+        ],
+        "tech": ["Venture Debt", "Private Credit", "Deal Sourcing", "Credit Underwriting", "Due Diligence"]
+      },
+      {
+        "title": "Analyst - Credit and Risk",
+        "company": "Caspian",
+        "companyUrl": "",
+        "location": "Hyderabad, Telangana, India",
+        "startDate": "2025-04",
+        "endDate": "2025-08",
+        "current": false,
+        "description": "Managed credit risk assessment and monitoring for the investment portfolio. Conducted detailed financial analysis, evaluated borrower creditworthiness, and monitored portfolio health.",
+        "highlights": [
+          "Conducted comprehensive credit risk assessments for prospective borrowers",
+          "Monitored existing portfolio for risk indicators and covenant compliance",
+          "Prepared detailed credit memos and risk reports for investment committee"
+        ],
+        "tech": ["Credit Risk", "Risk Monitoring", "Financial Analysis", "Portfolio Management"]
+      },
+      {
+        "title": "Executive - Credit and Risk",
+        "company": "Caspian",
+        "companyUrl": "",
+        "location": "Hyderabad, Telangana, India",
+        "startDate": "2023-09",
+        "endDate": "2025-03",
+        "current": false,
+        "description": "Executed credit evaluation and risk monitoring processes. Analyzed financial statements, assessed borrower creditworthiness, and supported deal execution across the credit lifecycle.",
+        "highlights": [
+          "Performed detailed financial statement analysis to assess borrower creditworthiness",
+          "Supported deal execution through credit evaluation, due diligence, and documentation",
+          "Monitored portfolio performance and flagged early warning indicators for at-risk accounts"
+        ],
+        "tech": ["Credit Evaluation", "Financial Statement Analysis", "Due Diligence", "Risk Monitoring"]
+      },
+      {
+        "title": "Financial Analyst",
+        "company": "Prosporaisers Financial Services",
+        "companyUrl": "",
+        "location": "Hyderabad, Telangana, India",
+        "startDate": "2022-07",
+        "endDate": "2023-09",
+        "current": false,
+        "description": "Collaborated with US Financial Advisors to facilitate business expansion by developing and streamlining processes. Clients included small and medium businesses, business owners, HNIs, physicians, and dentists.",
+        "highlights": [
+          "Obtained complete financial profiles and created comprehensive financial plans for clients by analyzing diverse financial documents and delivering tailored recommendations",
+          "Executed advanced planning scenarios to evaluate the potential financial impact of various events on client cash flows, enabling informed decision-making",
+          "Generated holistic reports based on client financial profiles and presented them during advisory meetings",
+          "Reviewed and analyzed investment reports to closely monitor fund performance for 401k Plan sponsors"
+        ],
+        "tech": ["Financial Planning", "Investment Analysis", "401k Plans", "Financial Statements"]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Fintech's Top 100 Analysts (2026)",
+        "description": "Featured on Indian Startup Times' \"Fintech's Top 100 Analysts: The 2026 Power List\" alongside incredible names from across India's fintech space.",
+        "longDescription": "Recognized by Indian Startup Times for contributions to the fintech and private credit ecosystem. Selected among the top 100 analysts in India's fintech industry for 2026.",
+        "url": "",
+        "repo": "",
+        "tags": ["Recognition", "Fintech", "Indian Startup Times", "2026"],
+        "featured": true,
+        "image": ""
+      },
+      {
+        "name": "Venture Debt Solutions at RevX Capital",
+        "description": "Structuring and executing tailored debt solutions for high-growth companies at a CAT-2 AIF, enabling scale without equity dilution.",
+        "longDescription": "End-to-end deal execution including sourcing, credit evaluation, negotiations, due diligence, deal closure, and portfolio monitoring for venture debt and private credit transactions.",
+        "url": "",
+        "repo": "",
+        "tags": ["Venture Debt", "Private Credit", "Deal Execution", "CAT-2 AIF"],
+        "featured": true,
+        "image": ""
+      }
+    ],
+    "skills": [
+      {
+        "category": "Credit & Risk",
+        "icon": "shield",
+        "items": [
+          { "name": "Credit Underwriting", "level": 92 },
+          { "name": "Risk Monitoring", "level": 90 },
+          { "name": "Credit Evaluation", "level": 90 },
+          { "name": "Due Diligence", "level": 88 }
+        ]
+      },
+      {
+        "category": "Deal Execution",
+        "icon": "handshake",
+        "items": [
+          { "name": "Deal Sourcing", "level": 90 },
+          { "name": "Negotiations", "level": 85 },
+          { "name": "Deal Closure", "level": 87 },
+          { "name": "Portfolio Monitoring", "level": 88 }
+        ]
+      },
+      {
+        "category": "Financial Analysis",
+        "icon": "chart",
+        "items": [
+          { "name": "Financial Analysis", "level": 92 },
+          { "name": "Financial Statement Analysis", "level": 90 },
+          { "name": "Financial Planning", "level": 85 },
+          { "name": "Investment Analysis", "level": 88 }
+        ]
+      },
+      {
+        "category": "Investments",
+        "icon": "trending",
+        "items": [
+          { "name": "Venture Capital", "level": 85 },
+          { "name": "Venture Debt", "level": 90 },
+          { "name": "Private Credit", "level": 88 },
+          { "name": "401k Plan Management", "level": 80 }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "institution": "St. Joseph's Degree & PG College",
+        "degree": "Bachelor of Business Administration (BBA)",
+        "field": "Financial Markets",
+        "startDate": "2019-06",
+        "endDate": "2022-06",
+        "description": "Grade: 8.86. Coursework covered Financial Concepts, Financial Statement Analysis, and financial market dynamics. Developed strong foundations in financial analysis and investment principles."
+      }
+    ],
+    "certifications": [
+      {
+        "name": "CFA Program Level I",
+        "issuer": "CFA Institute",
+        "issueDate": "2026-01",
+        "credentialId": "200727565",
+        "skills": ["Investment Management", "Portfolio Management"]
+      },
+      {
+        "name": "Business English Certificate",
+        "issuer": "Cambridge English",
+        "issueDate": "2020-01",
+        "credentialId": "B1932234",
+        "skills": ["Communication"]
+      }
+    ],
+    "socials": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/rohith-reddy-b501851b2/", "icon": "linkedin" },
+      { "label": "Email", "url": "mailto:rohithreddy939@gmail.com", "icon": "mail" }
+    ]
+  }
+}

@@ -1,0 +1,154 @@
+---
+import Icon from "./Icon.astro";
+
+interface Project {
+  name: string;
+  description: string;
+  longDescription?: string;
+  url?: string;
+  repo?: string;
+  tags: string[];
+  featured: boolean;
+  image?: string;
+}
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+
+const featured = projects.filter((p) => p.featured);
+const others = projects.filter((p) => !p.featured);
+---
+
+<section id="projects" class="relative py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="reveal mb-16 text-center">
+      <div class="mb-3 font-mono text-sm text-violet">
+        <span class="text-muted">// featured work</span>
+      </div>
+      <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+        Featured <span class="text-gradient">Work</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        A selection of milestones and initiatives I'm proud of.
+      </p>
+    </div>
+
+    <!-- Featured projects -->
+    <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        featured.map((project, i) => (
+          <article
+            class={`reveal reveal-scale delay-${i + 1} group gradient-border relative flex flex-col overflow-hidden`}
+          >
+            {/* Project image */}
+            {project.image && (
+              <div class="relative aspect-video overflow-hidden border-b border-border">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                {/* Hover overlay links */}
+                <div class="absolute inset-0 flex items-center justify-center gap-3 opacity-0 transition-opacity group-hover:opacity-100">
+                  {project.url && (
+                    <a href={project.url} target="_blank" rel="noopener" class="flex h-10 w-10 items-center justify-center rounded-full glass-strong text-text hover:text-violet" aria-label="Live demo">
+                      <Icon name="external" class="h-4 w-4" />
+                    </a>
+                  )}
+                  {project.repo && (
+                    <a href={project.repo} target="_blank" rel="noopener" class="flex h-10 w-10 items-center justify-center rounded-full glass-strong text-text hover:text-violet" aria-label="Source code">
+                      <Icon name="github" class="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Content */}
+            <div class="flex flex-1 flex-col p-6">
+              <div class="mb-2 flex items-center gap-2">
+                <span class="rounded-full border border-violet/30 bg-violet/10 px-2 py-0.5 text-[10px] font-medium text-violet">
+                  Featured
+                </span>
+              </div>
+
+              <h3 class="font-display text-xl font-semibold text-text transition-colors group-hover:text-violet">
+                {project.name}
+              </h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">
+                {project.description}
+              </p>
+
+              {/* Tags */}
+              <div class="mt-4 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span class="rounded-md border border-border bg-surface-2 px-2 py-0.5 font-mono text-[11px] text-dim">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Links */}
+              <div class="mt-4 flex items-center gap-4 border-t border-border pt-4">
+                {project.url && (
+                  <a href={project.url} target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-violet">
+                    <Icon name="external" class="h-3.5 w-3.5" />
+                    Live Demo
+                  </a>
+                )}
+                {project.repo && (
+                  <a href={project.repo} target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-violet">
+                    <Icon name="github" class="h-3.5 w-3.5" />
+                    Source
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Other projects -->
+    {
+      others.length > 0 && (
+        <div class="reveal mt-12">
+          <h3 class="mb-6 font-display text-lg font-semibold text-muted">
+            <span class="text-dim">More</span> Work
+          </h3>
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {others.map((project, i) => (
+              <a
+                href={project.repo || project.url || "#"}
+                target="_blank"
+                rel="noopener"
+                class={`reveal reveal-scale delay-${(i % 3) + 1} group gradient-border p-5 transition-transform hover:-translate-y-1`}
+              >
+                <div class="flex items-start justify-between">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-2 text-violet transition-colors group-hover:bg-violet group-hover:text-white">
+                    <Icon name="sparkles" class="h-4 w-4" />
+                  </div>
+                  <Icon name="arrow" class="h-4 w-4 -rotate-45 text-dim transition-all group-hover:rotate-0 group-hover:text-violet" />
+                </div>
+                <h4 class="mt-3 font-display text-base font-semibold text-text group-hover:text-violet">
+                  {project.name}
+                </h4>
+                <p class="mt-1 text-sm text-muted line-clamp-2">{project.description}</p>
+                <div class="mt-3 flex flex-wrap gap-1.5">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <span class="font-mono text-[10px] text-dim">{tag}</span>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>

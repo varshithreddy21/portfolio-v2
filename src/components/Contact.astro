@@ -1,0 +1,153 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  profile: {
+    name: string;
+    firstName: string;
+    email: string;
+    location: string;
+    socials: Array<{ label: string; url: string; icon: string }>;
+  };
+}
+
+const { profile } = Astro.props;
+---
+
+<section id="contact" class="relative py-24 lg:py-32">
+  <div class="mx-auto max-w-5xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="reveal mb-16 text-center">
+      <div class="mb-3 font-mono text-sm text-violet">
+        <span class="text-muted">// let's connect</span>
+      </div>
+      <h2 class="font-display text-4xl font-bold tracking-tight text-text sm:text-5xl">
+        Let's Build Something <span class="text-gradient">Great</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Have a question, an opportunity to discuss, or just want to connect? My inbox is always open.
+      </p>
+    </div>
+
+    <!-- Contact card -->
+    <div class="reveal reveal-scale gradient-border relative overflow-hidden p-8 sm:p-12" data-email={profile.email}>
+      <!-- Decorative glow -->
+      <div class="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-violet/10 blur-3xl"></div>
+      <div class="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-fuchsia/10 blur-3xl"></div>
+
+      <div class="relative grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <!-- Left: Info -->
+        <div>
+          <h3 class="font-display text-2xl font-semibold text-text">
+            Get in Touch
+          </h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Whether you're looking to discuss a potential opportunity, explore a collaboration, or just want to connect — I'd love to hear from you.
+          </p>
+
+          <!-- Contact methods -->
+          <div class="mt-6 space-y-3">
+            <a href={`mailto:${profile.email}`} class="group flex items-center gap-3 rounded-xl border border-border bg-surface-2 p-4 transition-all hover:border-violet/50">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-violet to-fuchsia text-white">
+                <Icon name="mail" class="h-4 w-4" />
+              </div>
+              <div>
+                <div class="text-xs text-dim">Email</div>
+                <div class="text-sm font-medium text-text group-hover:text-violet">{profile.email}</div>
+              </div>
+            </a>
+
+            <div class="flex items-center gap-3 rounded-xl border border-border bg-surface-2 p-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-cyan to-violet text-white">
+                <Icon name="location" class="h-4 w-4" />
+              </div>
+              <div>
+                <div class="text-xs text-dim">Location</div>
+                <div class="text-sm font-medium text-text">{profile.location}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Socials -->
+          <div class="mt-6">
+            <div class="mb-3 text-xs text-dim">Find me on</div>
+            <div class="flex gap-3">
+              {profile.socials.map((social) => (
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface-2 text-muted transition-all hover:border-violet/50 hover:text-violet hover:shadow-md hover:shadow-violet/10"
+                  aria-label={social.label}
+                >
+                  <Icon name={social.icon} class="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Contact form -->
+        <div>
+          <form class="space-y-4" id="contact-form">
+            <div>
+              <label for="name" class="mb-1.5 block text-xs font-medium text-muted">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Your name"
+                class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-text placeholder-dim transition-colors focus:border-violet focus:outline-none focus:ring-1 focus:ring-violet"
+              />
+            </div>
+            <div>
+              <label for="email" class="mb-1.5 block text-xs font-medium text-muted">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+                class="w-full rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-text placeholder-dim transition-colors focus:border-violet focus:outline-none focus:ring-1 focus:ring-violet"
+              />
+            </div>
+            <div>
+              <label for="message" class="mb-1.5 block text-xs font-medium text-muted">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows="5"
+                placeholder="Your message..."
+                class="w-full resize-none rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-text placeholder-dim transition-colors focus:border-violet focus:outline-none focus:ring-1 focus:ring-violet"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet to-fuchsia px-6 py-3 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-violet/30"
+            >
+              Send Message
+              <Icon name="send" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(form as HTMLFormElement);
+    const name = data.get("name");
+    const email = data.get("email");
+    const message = data.get("message");
+    const profileEmail = document.querySelector("[data-email]")?.getAttribute("data-email") || "";
+    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+    window.location.href = `mailto:${profileEmail}?subject=${subject}&body=${body}`;
+  });
+</script>
