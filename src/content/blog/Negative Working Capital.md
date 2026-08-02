@@ -6,7 +6,6 @@ tags: ["cash flows", "negative working capital", "cash runway", "private credit"
 category: "Perspective into Financial concepts"
 readingTime: "5 min read"
 ---
-
 Of course, not every business has that luxury.
 
 ## Where Providing Credit Is Unavoidable
