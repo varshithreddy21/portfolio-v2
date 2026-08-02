@@ -3,7 +3,7 @@ title: "Cash-Positive Loss-Making Companies > Profitable Cash Burner Companies"
 description: "A company being cash-flow positive often matters more to me than it being PAT positive."
 publishDate: 2026-08-03
 tags: ["cash flows", "negative working capital", "cash runway", "private credit"]
-category: "Perspective into Financial concepts"
+category: "Financial concepts with little Perspective"
 readingTime: "5 min read"
 ---
 Of course, not every business has that luxury.
