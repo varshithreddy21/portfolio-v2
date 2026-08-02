@@ -7,8 +7,6 @@ category: "Perspective into Financial concepts"
 readingTime: "5 min read"
 ---
 
-A company being cash-flow positive often matters more to me than it being PAT (Profit After Tax) positive.
-
 Of course, not every business has that luxury.
 
 ## Where Providing Credit Is Unavoidable
